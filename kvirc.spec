@@ -1,12 +1,12 @@
 %define		_snap	20040211
-
+%define 	fver	3.0.0-beta3
 Summary:	KDE Enhanced Visual IRC Client
 Summary(es):	KVirc - Cliente IRC
 Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
@@ -108,47 +108,47 @@ kde_icondir="%{_pixmapsdir}"; export kde_icondir
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT%{_desktopdir}
-#install -d $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
-#install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}
+install -d $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
+install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}
 
 %{__make} DESTDIR=$RPM_BUILD_ROOT install
 
-#mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
-#	$RPM_BUILD_ROOT%{_desktopdir}
+mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
+	$RPM_BUILD_ROOT%{_desktopdir}
 
-#echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
+echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
 
-#install -d $RPM_BUILD_ROOT%{_mandir}/man1/
-#mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1*,%{_mandir}/man1/}
+install -d $RPM_BUILD_ROOT%{_mandir}/man1/
+mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1*,%{_mandir}/man1/}
 
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/dcc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/about.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/about.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/dcc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/about.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/logview.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/kvirc.mo
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/logview.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/kvirc.mo
 
-#%find_lang	kvirc	--with-kde
-#%find_lang      about   --with-kde
-#cat about.lang >> kvirc.lang
-#%find_lang      logview   --with-kde
-#cat logview.lang >> kvirc.lang
-#%find_lang      dcc   --with-kde
-#cat dcc.lang >> kvirc.lang
+%find_lang	kvirc	--with-kde
+%find_lang      about   --with-kde
+cat about.lang >> kvirc.lang
+%find_lang      logview   --with-kde
+cat logview.lang >> kvirc.lang
+%find_lang      dcc   --with-kde
+cat dcc.lang >> kvirc.lang
 
-#mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
-#install -d $RPM_BUILD_ROOT%{_iconsdir}
-#mv -f $RPM_BUILD_ROOT{%{_pixmapsdir},%{_iconsdir}}
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
+install -d $RPM_BUILD_ROOT%{_iconsdir}
+mv -f $RPM_BUILD_ROOT{%{_pixmapsdir}/*,%{_iconsdir}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -156,7 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files -f kvirc.lang
+%files -f kvirc.lang 
 %defattr(644,root,root,755)
 %doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
 %attr(755,root,root) %{_bindir}/kvi_*.sh
