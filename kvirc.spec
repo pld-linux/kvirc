@@ -5,11 +5,6 @@ Version:	2.1.0
 Release:	3
 License:	GPL
 Group:		X11/Applications
-Group(de):	X11/Applikationen
-Group(es):	X11/Aplicaciones
-Group(pl):	X11/Aplikacje
-Group(pt_BR):	X11/Aplicações
-Group(pt):	X11/Aplicações
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source0:	ftp://ftp.kvirc.net/kvirc/%{version}/source/%{name}-%{version}.tar.gz
 URL:		http://www.kvirc.net/
