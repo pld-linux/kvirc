@@ -11,7 +11,7 @@ Patch:		kvi_sparser.cpp.patch
 URL:		http://www.kvirc.org/
 BuildRequires:	qt-devel >= 1.40
 BuildRequires:	kdelibs-devel > 1.0
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 KVIrc is an enchanced visual irc client.
