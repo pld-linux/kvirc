@@ -73,7 +73,7 @@ Pliki nag³ówkowe biblioteki KVirc.
 %patch -p1
 
 # kill libtool.m4 and co. in acinclude.m4
-head -1879 acinclude.m4 > acinclude.m4.tmp
+head -n 1879 acinclude.m4 > acinclude.m4.tmp
 mv -f acinclude.m4.tmp acinclude.m4
 
 %build
