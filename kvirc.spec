@@ -93,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
 %attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/*.so
-%attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/*.la
+%{_datadir}/kvirc/%{version}-%{_beta}/modules/*.la
 %attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/caps/crypt/*
 %{_datadir}/kvirc/%{version}-%{_beta}/config/*.kvc
 %{_datadir}/kvirc/%{version}-%{_beta}/config/modules/*.kvc
