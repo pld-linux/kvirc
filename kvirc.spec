@@ -1,25 +1,16 @@
-%define name kvirc
-%define version 0.9.0
-%define release 2
-%define prefix /opt/kde
-
-%define builddir $RPM_BUILD_DIR/%{name}-%{version}
-
-Summary: KDE Enhanced Visual IRC Client
-Name: %{name}
-Version: %{version}
-Release: %{release}
-Prefix: %{prefix}
-Group: X11/KDE/Internet
-Distribution: KDE
-Copyright: GPL
-Vendor: Szymon Stefanek <kvirc@tin.it>
-Packager: Troy Engel <tengel@sonic.net>
-Source: %{name}-%{version}.tar.gz
-URL: http://www.kvirc.org/
-Requires: qt >= 1.40 kdelibs > 1.0
-BuildRoot: /tmp/build-%{name}-%{version}
-Patch: kvi_sparser.cpp.patch
+Summary:	KDE Enhanced Visual IRC Client
+Name:		kvirc
+Version:	0.9.0
+Release:	1
+Group:		X11/KDE/Internet
+Copyright:	GPL
+Vendor:		Szymon Stefanek <kvirc@tin.it>
+Source:		%{name}-%{version}.tar.gz
+Patch:		kvi_sparser.cpp.patch
+URL:		http://www.kvirc.org/
+BuildPrereq:	qt-devel >= 1.40
+BuildPrereq:	kdelibs-devel > 1.0
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 KVIrc is an enchanced visual irc client.
@@ -35,15 +26,8 @@ Features:
         -Socks V4 support
         -... just compile it and see :)
  
-
-%changelog
-* Sun Apr 04 1999 - Troy Engel <tengel@sonic.net>
-  - Removed some bad uid/gid stuff from files
-  - Removed exec-prefix (now uses automatic setting)
-  - Relocateable packaging
-
 %prep
-%setup
+%setup -q
 %patch -p1
 
 %build
@@ -57,7 +41,6 @@ make install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-rm -rf %{builddir}
 
 %files
 %defattr(-,root,root)
@@ -72,3 +55,8 @@ rm -rf %{builddir}
 %{prefix}/share/icons/mini/kvirc.xpm
 %{prefix}/share/locale/de/LC_MESSAGES/kvirc.mo
 %{prefix}/share/locale/it/LC_MESSAGES/kvirc.mo
+
+%changelog                                               
+* Sat Jul 10 1999
+  []
+- based on spec written by Troy Engel <tengel@sonic.net>.
