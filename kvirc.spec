@@ -2,11 +2,14 @@ Summary:	KDE Enhanced Visual IRC Client
 Summary(pl):	Wizualny Klient IRC dla KDE
 Name:		kvirc
 Version:	2.1.0
-Release:	2
-Group:		X11/KDE/Applications
-Group(de):	X11/KDE/Applikationen
-Group(pl):	X11/KDE/Aplikacje
+Release:	3
 License:	GPL
+Group:		X11/Applications
+Group(de):	X11/Applikationen
+Group(es):	X11/Aplicaciones
+Group(pl):	X11/Aplikacje
+Group(pt_BR):	X11/Aplicações
+Group(pt):	X11/Aplicações
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source0:	ftp://ftp.kvirc.net/kvirc/%{version}/source/%{name}-%{version}.tar.gz
 URL:		http://www.kvirc.net/
@@ -34,7 +37,7 @@ KVIrc is an enchanced visual irc client. Features:
  - IPv6 support
 
 %description -l pl
-KVIrc jest rozsze¿onym, wizualnym klientem irc. Jego mo¿liwo¶ci i
+KVIrc jest rozszerzonym, wizualnym klientem irc. Jego mo¿liwo¶ci i
 zalety to:
  - interfejs MDI
  - CTCP
@@ -85,6 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
+%dir %{_datadir}/kvirc
 %attr(755,root,root) %{_datadir}/kvirc/plugins/*
 %{_datadir}/kvirc/charmaps
 %{_datadir}/kvirc/config
