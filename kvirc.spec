@@ -87,9 +87,6 @@ sed -i -e s,KVIRC_PROG_LIBTOOL,AC_PROG_LIBTOOL, configure.in
 %{__autoheader}
 %{__automake}
 
-kde_appsdir="%{_applnkdir}"; export kde_appsdir
-kde_htmldir="%{_htmldir}"; export kde_htmldir
-kde_icondir="%{_pixmapsdir}"; export kde_icondir
 #charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 %configure \
 	--with-pipes \
@@ -105,14 +102,18 @@ kde_icondir="%{_pixmapsdir}"; export kde_icondir
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	kde_htmldir=%{_kdedocdir}
+
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
-
-mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
+mv $RPM_BUILD_ROOT%{_datadir}/applnk/Internet/kvirc.desktop \
 	$RPM_BUILD_ROOT%{_desktopdir}
 
-echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
+echo "Categories=Qt;KDE;Network;InstantMessaging;" >> \
+	$RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
 
 install -d $RPM_BUILD_ROOT%{_mandir}/man1/
 mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1,%{_mandir}/man1/}
