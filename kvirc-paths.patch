@@ -1,6 +1,6 @@
-diff -uNr kvirccvs.orig/kvirc/acinclude.m4 kvirccvs/kvirc/acinclude.m4
---- kvirccvs.orig/kvirc/acinclude.m4	2004-02-11 15:08:53.000000000 +0100
-+++ kvirccvs/kvirc/acinclude.m4	2004-02-11 15:26:24.741986624 +0100
+diff -uNr kvirc/acinclude.m4~ kvirc/acinclude.m4
+--- kvirc/acinclude.m4~	2004-02-11 15:08:53.000000000 +0100
++++ kvirc/acinclude.m4	2004-02-11 15:26:24.741986624 +0100
 @@ -1937,10 +1937,10 @@
  	helpdir="\${globalkvircdir}/help/en"
  	AC_SUBST(helpdir)
@@ -31,9 +31,22 @@ diff -uNr kvirccvs.orig/kvirc/acinclude.m4 kvirccvs/kvirc/acinclude.m4
  		mimelnkdir="$SS_KDE_GENERAL_DIR/share/mimelnk/text"
  	else
  		iconapps32datadir="\${exec_prefix}/share/kvirc/$VERSION/icons/32x32"
-diff -uNr kvirccvs.orig/kvirc/src/kvilib/system/kvi_locale.cpp kvirccvs/kvirc/src/kvilib/system/kvi_locale.cpp
---- kvirccvs.orig/kvirc/src/kvilib/system/kvi_locale.cpp	2003-12-24 12:51:11.000000000 +0100
-+++ kvirccvs/kvirc/src/kvilib/system/kvi_locale.cpp	2004-02-11 15:26:24.746985864 +0100
+diff -uNr kvirc/src/kvirc/kernel/kvi_app_fs.cpp~ kvirc/src/kvirc/kernel/kvi_app_fs.cpp
+--- kvirc/src/kvirc/kernel/kvi_app_fs.cpp~	2003-11-20 02:53:38.000000000 +0100
++++ kvirc/src/kvirc/kernel/kvi_app_fs.cpp	2004-02-11 15:26:24.744986168 +0100
+@@ -66,7 +66,7 @@
+ 		case None          :                                                                           break;
+ 		case Pics          : szData.append("pics");                                                    break;
+ 		case Modules       :
+-		case Plugins       : szData.append("modules");                                                 break;
++		case Plugins       : szData="/usr/lib/kvirc/" VERSION "/modules";		               break;
+ 		case ConfigPlugins : szData.append(KviStr::Format,"config%smodules",KVI_PATH_SEPARATOR);       break;
+ 		case ConfigScripts : szData.append(KviStr::Format,"config%sscripts",KVI_PATH_SEPARATOR);       break;
+ 		case Help          :
+			#endif
+diff -uNr kvirc/src/kvilib/system/kvi_locale.cpp.niedakh kvirc/src/kvilib/system/kvi_locale.cpp
+--- kvirc/src/kvilib/system/kvi_locale.cpp.niedakh	2003-12-24 12:51:11.000000000 +0100
++++ kvirc/src/kvilib/system/kvi_locale.cpp	2004-02-12 18:07:35.513485600 +0100
 @@ -429,7 +429,7 @@
  		KviStr szLocDir = szLocaleDir;
  		szLocDir.ensureLastCharIs(KVI_PATH_SEPARATOR_CHAR);
@@ -43,69 +56,48 @@ diff -uNr kvirccvs.orig/kvirc/src/kvilib/system/kvi_locale.cpp kvirccvs/kvirc/sr
  		//debug("Lookup %s",szBuffer.ptr());
  		if(kvi_fileExists(szBuffer.ptr()))return true;
  
+@@ -469,7 +469,7 @@
+ 	}
+ 
+ 
+-	void init(QApplication * app,const char * localeDir)
++	void init(QApplication * app,const char * oldlocaleDir)
+ 	{
+ 		// first of all try to find out the current locale
+ 		g_szLang = kvi_getenv("KVIRC_LANG");
 @@ -484,7 +484,9 @@
  		// the catalogue dict
  		g_pCatalogueDict = new QAsciiDict<KviMessageCatalogue>;
  		g_pCatalogueDict->setAutoDelete(true);
 -
 +#include <string.h>
-+		localeDir="/usr/share/locale";
-+		strcat ((char*)localeDir, g_szLang);
++		char * localeDir="/usr/share/locale";
++		strcat (localeDir, g_szLang);
  		if(g_szLang.hasData())
  		{
  			KviStr szBuffer;
-diff -uNr kvirccvs.orig/kvirc/src/kvirc/kernel/kvi_app_fs.cpp kvirccvs/kvirc/src/kvirc/kernel/kvi_app_fs.cpp
---- kvirccvs.orig/kvirc/src/kvirc/kernel/kvi_app_fs.cpp	2003-11-20 02:53:38.000000000 +0100
-+++ kvirccvs/kvirc/src/kvirc/kernel/kvi_app_fs.cpp	2004-02-11 15:26:24.744986168 +0100
-@@ -66,7 +66,7 @@
- 		case None          :                                                                           break;
- 		case Pics          : szData.append("pics");                                                    break;
- 		case Modules       :
--		case Plugins       : szData.append("modules");                                                 break;
-+		case Plugins       : szData="/usr/share/apps/kvirc/" VERSION "/modules";		               break;
- 		case ConfigPlugins : szData.append(KviStr::Format,"config%smodules",KVI_PATH_SEPARATOR);       break;
- 		case ConfigScripts : szData.append(KviStr::Format,"config%sscripts",KVI_PATH_SEPARATOR);       break;
- 		case Help          :
-diff -uNr kvirccvs.orig/kvirc/src/kvirc/kernel/kvi_app_setup.cpp kvirccvs/kvirc/src/kvirc/kernel/kvi_app_setup.cpp
---- kvirccvs.orig/kvirc/src/kvirc/kernel/kvi_app_setup.cpp	2003-09-12 04:23:11.000000000 +0200
-+++ kvirccvs/kvirc/src/kvirc/kernel/kvi_app_setup.cpp	2004-02-11 15:32:55.128638832 +0100
-@@ -97,12 +97,12 @@
- #ifndef COMPILE_ON_WINDOWS
- 	const char * usualKvircGlobalPrePath[]=
- 	{
--		"/usr/local",       "/opt/kde",       "/usr",
--		"/usr/local/lib",   "/opt/kde3",      "/usr/lib",
--		"/usr/local/kde",   "/opt",           "/usr/etc",
--		"/usr/local/kde3",  "/usr/lib/X11R6", "/usr/X11R6",
-+		"/usr/",       "/opt/kde",       "/usr",
-+		"/usr/lib",   "/opt/kde3",      "/usr/lib",
-+		"/usr/kde",   "/opt",           "/usr/etc",
-+		"/usr/kde3",  "/usr/lib/X11R6", "/usr/X11R6",
- 		"/usr/local/X11R6", "/lib/X11",       "/usr/kde",
--		"/usr/local/X11",   "/etc",           "/usr/kde3",
-+		"/usr/X11",   "/etc",           "/usr/kde3",
- 		"/usr/local/etc",   "/lib",           "/usr/X11",
- 		"/etc/X11",         "/home",          "/home/kvirc",
- 		0
-@@ -110,9 +110,9 @@
- 	
- 	const char * usualKvircGlobalDir[]=
- 	{
--		"/share/kvirc/",            "/share/apps/kvirc/",
--		"/apps/kvirc/",             "/kvirc/",
--		"/kvirc/share/apps/kvirc/", "/kvirc/share/kvirc/", //<------ ???!!!???
-+		"/kvirc/",            "/share/apps/kvirc/",
-+		"/apps/kvirc/",             "/kvirc/share/apps/kvirc/",
-+		"/share/kvirc/", "/kvirc/share/kvirc/", //<------ ???!!!???
- 		"/kvirc/share/",            0
- 	};
+diff -uNr kvirc/src/kvirc/kernel/kvi_app_setup.cpp.niedakh kvirc/src/kvirc/kernel/kvi_app_setup.cpp
+--- kvirc/src/kvirc/kernel/kvi_app_setup.cpp.niedakh	2003-09-12 04:23:11.000000000 +0200
++++ kvirc/src/kvirc/kernel/kvi_app_setup.cpp	2004-02-12 18:14:05.148252112 +0100
+@ -124,6 +124,7 @@
+ {
+ 	// Look for the installation directory
+ 	// with the image and help files inside
++#define	GLOBAL_KVIRC_DIR "/usr/share/kvirc/"
+ #ifdef GLOBAL_KVIRC_DIR
+ 	m_szGlobalKvircDir = GLOBAL_KVIRC_DIR;
+ 	kvi_adjustFilePath(m_szGlobalKvircDir);
+@ -307,10 +308,10 @@
+ 	// First find the global (readable) one...
+ 	findGlobalKvircDirectory();
+ 	// Init locale
+-	KviStr szLocalePath = m_szGlobalKvircDir;
+-	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
++//	KviStr szLocalePath = m_szGlobalKvircDir;
++//	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
  
-@@ -158,7 +158,7 @@
- 			if(checkGlobalKvircDirectory(m_szGlobalKvircDir.ptr()))return;
- 			#ifdef HAVE_GETENV
- 				//KDEDIR sanity check...
--				m_szGlobalKvircDir = getenv("KDEDIR");
-+				m_szGlobalKvircDir = "/usr";
- 				m_szGlobalKvircDir+="/share/apps/kvirc/" VERSION;
- 				if(checkGlobalKvircDirectory(m_szGlobalKvircDir.ptr()))return;
- 			#endif
+-	KviLocale::init(this,szLocalePath.ptr());
++	KviLocale::init(this,NULL);
+ 
+ 	//__debug_1arg("Global Kvirc directory is %s",m_szGlobalKvircDir.ptr());
+ 	// Now look for the local (writable) one
