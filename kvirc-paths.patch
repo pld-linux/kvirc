@@ -1,0 +1,28 @@
+--- kvirc-3.0.0-beta2/acinclude.m4.orig	Sat Jan  4 15:53:44 2003
++++ kvirc-3.0.0-beta2/acinclude.m4	Fri May  9 10:09:07 2003
+@@ -1713,7 +1713,7 @@
+ 	helpdir="\${exec_prefix}/share/kvirc/$VERSION/help/en"
+ 	AC_SUBST(helpdir)
+ 
+-	pluglibdir="\${exec_prefix}/share/kvirc/$VERSION/modules"
++	pluglibdir="\${exec_prefix}/lib/kvirc/$VERSION/modules"
+ 	AC_SUBST(pluglibdir)
+ 
+ 	modulelibdir="\${exec_prefix}/share/kvirc/$VERSION/modules"
+@@ -1737,11 +1737,11 @@
+ 	AC_SUBST(kdeservicesdir)
+ 
+ 	if test "$SS_KDE_REQUESTED" = "yes"; then
+-		iconapps32datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/32x32/apps"
+-		iconapps48datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/48x48/apps"
+-		iconmime32datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/32x32/mimetypes"
+-		iconmime48datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/48x48/mimetypes"
+-		applnkdir="$SS_KDE_GENERAL_DIR/share/applnk/Internet"
++		iconapps32datadir="${kde_icondir}/hicolor/32x32/apps"
++		iconapps48datadir="${kde_icondir}/hicolor/48x48/apps"
++		iconmime32datadir="${kde_icondir}/hicolor/32x32/mimetypes"
++		iconmime48datadir="${kde_icondir}/hicolor/48x48/mimetypes"
++		applnkdir="${kde_appsdir}/Internet"
+ 		mimelnkdir="$SS_KDE_GENERAL_DIR/share/mimelnk/text"
+ 	else
+ 		iconapps32datadir="\${exec_prefix}/share/kvirc/$VERSION/icons/32x32"
