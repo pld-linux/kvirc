@@ -22,7 +22,7 @@ BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	libjpeg-devel
 BuildRequires:	kdelibs-devel >= 3.0.3
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	libgsm-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
