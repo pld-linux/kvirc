@@ -17,7 +17,6 @@ BuildRequires:	kdelibs-devel >= 3.0.3
 BuildRequires:	libjpeg-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
 
 %description
 KVIrc is an enchanced visual irc client. Features:
