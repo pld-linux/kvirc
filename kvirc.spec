@@ -1,17 +1,20 @@
-%define		_beta		beta2
+%define		_beta		beta3
+%define		_snap	20031227
+
 Summary:	KDE Enhanced Visual IRC Client
 Summary(es):	KVirc - Cliente IRC
 Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
-Release:	0.%{_beta}.1
-%define	fver	%{version}-%{_beta}
+Release:	0.%{_snap}.1
+#%define	fver	%{version}-%{_beta}
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
-Source0:	ftp://ftp.kvirc.net/kvirc/%{fver}/source/%{name}-%{fver}.tar.bz2
-# Source0-md5:	88fa021f23a25ce3bf43c21c77df9105
+##Source0:	ftp://ftp.kvirc.net/kvirc/%{fver}/source/%{name}-%{fver}.tar.bz2
+Source0:	ftp://ftp.kvirc.net/pub/kvirc/snapshots/source/kvirc-%{version}-snap%{_snap}.tar.gz
+# Source0-md5:	bf1ff20fa62413976c8ac912c044b60d
 Patch0:		%{name}-paths.patch
 URL:		http://www.kvirc.net/
 BuildRequires:	autoconf
@@ -70,11 +73,12 @@ Pliki nag³ówkowe biblioteki KVirc.
 
 %prep
 %setup -q -n %{name}-%{fver}
-%patch -p1
+%patch -p1 -b .zbiedr
 
 # kill libtool.m4 and co. in acinclude.m4
-head -n 1879 acinclude.m4 > acinclude.m4.tmp
-mv -f acinclude.m4.tmp acinclude.m4
+# head -n 2012 acinclude.m4 > acinclude.m4.tmp
+# mv -f acinclude.m4.tmp acinclude.m4
+# sed -i -e s,KVIRC_PROG_LIBTOOL,AC_PROG_LIBTOOL, configure.in
 
 %build
 %{__libtoolize}
@@ -89,21 +93,59 @@ kde_icondir="%{_pixmapsdir}"; export kde_icondir
 #charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 %configure \
 	--with-pipes \
-	--with-ipv6-support \
+	--with-aa-fonts \
+	--with-big-channels \
+	--with-pizza \
 %ifarch %{ix86}
 	--with-i386-asm \
+	--with-ix86-asm \
 %endif
 	--with-charset-translation
 %{__make}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+#rm -rf $RPM_BUILD_ROOT
+#install -d $RPM_BUILD_ROOT%{_desktopdir}
+#install -d $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
+#install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}
 
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
+#%{__make} DESTDIR=$RPM_BUILD_ROOT install
 
-mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
-	$RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+#mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
+#	$RPM_BUILD_ROOT%{_desktopdir}
+
+#echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
+
+#install -d $RPM_BUILD_ROOT%{_mandir}/man1/
+#mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1*,%{_mandir}/man1/}
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/logview.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/kvirc.mo
+
+%find_lang	kvirc	--with-kde
+%find_lang      about   --with-kde
+cat about.lang >> kvirc.lang
+%find_lang      logview   --with-kde
+cat logview.lang >> kvirc.lang
+%find_lang      dcc   --with-kde
+cat dcc.lang >> kvirc.lang
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
+install -d $RPM_BUILD_ROOT%{_iconsdir}
+mv -f $RPM_BUILD_ROOT{%{_pixmapsdir},%{_iconsdir}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files
+%files -f kvirc.lang
 %defattr(644,root,root,755)
 %doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
 %attr(755,root,root) %{_bindir}/kvi_*.sh
@@ -124,24 +166,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kvirc/%{fver}/modules/*.so
 # needed or not?
 %{_libdir}/kvirc/%{fver}/modules/*.la
-
-%dir %{_datadir}/kvirc
-%dir %{_datadir}/kvirc/%{fver}
-%{_datadir}/kvirc/%{fver}/config
-%{_datadir}/kvirc/%{fver}/defscript
-%dir %{_datadir}/kvirc/%{fver}/help
-%{_datadir}/kvirc/%{fver}/help/en
-%dir %{_datadir}/kvirc/%{fver}/locale
-%lang(de) %{_datadir}/kvirc/%{fver}/locale/de.mo
-%lang(es) %{_datadir}/kvirc/%{fver}/locale/es.mo
-%lang(fr) %{_datadir}/kvirc/%{fver}/locale/fr.mo
-%lang(it) %{_datadir}/kvirc/%{fver}/locale/it.mo
-%lang(nl) %{_datadir}/kvirc/%{fver}/locale/nl.mo
-%lang(pl) %{_datadir}/kvirc/%{fver}/locale/pl.mo
-%lang(sr) %{_datadir}/kvirc/%{fver}/locale/sr.mo
-%{_datadir}/kvirc/%{fver}/pics
-%{_pixmapsdir}/hicolor/*/*/*.png
-%{_applnkdir}/Network/Communications/*.desktop
+%{_datadir}/apps/kvirc
+%{_iconsdir}/hicolor/*/*/*.png
+%{_desktopdir}/*.desktop
 %{_datadir}/mimelnk/text/*.desktop
 %{_mandir}/man1/*
 %{_datadir}/services/*
