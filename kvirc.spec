@@ -16,26 +16,27 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 
 %description
 KVIrc is an enchanced visual irc client. Features:
-        - -MDI interface
-        - -CTCP's
-        - -DCC CHAT SEND/GET
-        - -Individual queries
-        - -Scripting
-        - -Aliases
-        - -Events (remote)
-        - -Complete color,background and behavior configuration.
+ - MDI interface
+ - CTCP's
+ - DCC CHAT SEND/GET
+ - Individual queries
+ - Scripting
+ - Aliases
+ - Events (remote)
+ - Complete color,background and behavior configuration
  - IPv6 support
 
 %description -l pl
 KVIrc jest rozsze¿onym, wizualnym klientem irc. Jego mo¿liwo¶ci i
 zalety to:
- - -interfejs MDI
+ - interfejs MDI
  - CTCP
  - DCC CHAT SEND/GET
  - indywidualne zapytania
@@ -74,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
 
-mv $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
+mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
    $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications/kvirc.desktop
 
 %clean
