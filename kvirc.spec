@@ -34,7 +34,7 @@ Features:
 %build
 CXXFLAGS="$RPM_OPT_FLAGS" CFLAGS="$RPM_OPT_FLAGS" ./configure \
 	--prefix=%{prefix} --with-install-root=$RPM_BUILD_ROOT
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
