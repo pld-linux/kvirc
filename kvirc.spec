@@ -52,7 +52,7 @@ charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 kdeicondir="%{_pixmapsdir}/hicolor/48x48"; export kdeicondir
 
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--prefix=%{_prefix} \
 	--with-pipes \
