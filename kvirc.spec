@@ -69,6 +69,10 @@ rm -rf $RPM_BUILD_ROOT
     mandir="%{_mandir}/man1" \
     DESTDIR=$RPM_BUILD_ROOT install
 
+install -d $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC
+
+mv $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
+   $RPM_BUILD_ROOT%{_applnkdir}/Network/IRC/kvirc.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,5 +89,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kvirc/msgcolors
 %{_datadir}/kvirc/pics
 %{_mandir}/man1/*
-%{_applnkdir}/Internet/kvirc.desktop
+%{_applnkdir}/Network/IRC/kvirc.desktop
 %{_pixmapsdir}/hicolor/48x48/kvirc.png
