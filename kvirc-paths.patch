@@ -39,14 +39,48 @@ diff -uNr kvirc/src/kvirc/kernel/kvi_app_fs.cpp~ kvirc/src/kvirc/kernel/kvi_app_
  		case Pics          : szData.append("pics");                                                    break;
  		case Modules       :
 -		case Plugins       : szData.append("modules");                                                 break;
-+		case Plugins       : szData="/usr/lib/kvirc/" VERSION "/modules";		               break;
++		case Plugins       : szData="/usr/lib/kvirc/3.0.0-beta3/modules";		               break;
  		case ConfigPlugins : szData.append(KviStr::Format,"config%smodules",KVI_PATH_SEPARATOR);       break;
  		case ConfigScripts : szData.append(KviStr::Format,"config%sscripts",KVI_PATH_SEPARATOR);       break;
  		case Help          :
 			#endif
-diff -uNr kvirc/src/kvilib/system/kvi_locale.cpp.niedakh kvirc/src/kvilib/system/kvi_locale.cpp
+--- kvirc/src/kvirc/kernel/kvi_app_setup.cpp.niedakh	2003-09-12 04:23:11.000000000 +0200
++++ kvirc/src/kvirc/kernel/kvi_app_setup.cpp	2004-02-17 14:22:55.707173504 +0100
+@@ -70,8 +70,8 @@
+ bool KviApp::checkGlobalKvircDirectory(const char *dir)
+ {
+ 	//First check if the help subdir exists
+-	KviStr szDir2(KviStr::Format,"%s%smodules",dir,KVI_PATH_SEPARATOR);
+-	if(!kvi_directoryExists(szDir2.ptr()))return false;
++//	KviStr szDir2(KviStr::Format,"%s%smodules",dir,KVI_PATH_SEPARATOR);
++//	if(!kvi_directoryExists(szDir2.ptr()))return false;
+ 	//Then check if the pics subdir exists
+ 	KviStr szDir(KviStr::Format,"%s%spics",dir,KVI_PATH_SEPARATOR);
+ 	if(!kvi_directoryExists(szDir.ptr()))return false;
+@@ -124,6 +124,7 @@
+ {
+ 	// Look for the installation directory
+ 	// with the image and help files inside
++#define	GLOBAL_KVIRC_DIR "/usr/share/kvirc/"
+ #ifdef GLOBAL_KVIRC_DIR
+ 	m_szGlobalKvircDir = GLOBAL_KVIRC_DIR;
+ 	kvi_adjustFilePath(m_szGlobalKvircDir);
+@@ -307,10 +308,10 @@
+ 	// First find the global (readable) one...
+ 	findGlobalKvircDirectory();
+ 	// Init locale
+-	KviStr szLocalePath = m_szGlobalKvircDir;
+-	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
++//	KviStr szLocalePath = m_szGlobalKvircDir;
++//	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
+ 
+-	KviLocale::init(this,szLocalePath.ptr());
++	KviLocale::init(this,NULL);
+ 
+ 	//__debug_1arg("Global Kvirc directory is %s",m_szGlobalKvircDir.ptr());
+ 	// Now look for the local (writable) one
 --- kvirc/src/kvilib/system/kvi_locale.cpp.niedakh	2003-12-24 12:51:11.000000000 +0100
-+++ kvirc/src/kvilib/system/kvi_locale.cpp	2004-02-12 18:07:35.513485600 +0100
++++ kvirc/src/kvilib/system/kvi_locale.cpp	2004-02-17 19:21:48.497974920 +0100
 @@ -429,7 +429,7 @@
  		KviStr szLocDir = szLocaleDir;
  		szLocDir.ensureLastCharIs(KVI_PATH_SEPARATOR_CHAR);
@@ -65,39 +99,15 @@ diff -uNr kvirc/src/kvilib/system/kvi_locale.cpp.niedakh kvirc/src/kvilib/system
  	{
  		// first of all try to find out the current locale
  		g_szLang = kvi_getenv("KVIRC_LANG");
-@@ -484,7 +484,9 @@
+@@ -484,7 +484,10 @@
  		// the catalogue dict
  		g_pCatalogueDict = new QAsciiDict<KviMessageCatalogue>;
  		g_pCatalogueDict->setAutoDelete(true);
 -
-+#include <string.h>
-+		char * localeDir="/usr/share/locale";
-+		strcat (localeDir, g_szLang);
++#include <qstring.h>
++		QString nlocaleDir = QString("/usr/share/locale/") + g_szLang + QString("/LC_MESSAGES/");
++		const char * localeDir=nlocaleDir.latin1();
++		
  		if(g_szLang.hasData())
  		{
  			KviStr szBuffer;
-diff -uNr kvirc/src/kvirc/kernel/kvi_app_setup.cpp.niedakh kvirc/src/kvirc/kernel/kvi_app_setup.cpp
---- kvirc/src/kvirc/kernel/kvi_app_setup.cpp.niedakh	2003-09-12 04:23:11.000000000 +0200
-+++ kvirc/src/kvirc/kernel/kvi_app_setup.cpp	2004-02-12 18:14:05.148252112 +0100
-@ -124,6 +124,7 @@
- {
- 	// Look for the installation directory
- 	// with the image and help files inside
-+#define	GLOBAL_KVIRC_DIR "/usr/share/kvirc/"
- #ifdef GLOBAL_KVIRC_DIR
- 	m_szGlobalKvircDir = GLOBAL_KVIRC_DIR;
- 	kvi_adjustFilePath(m_szGlobalKvircDir);
-@ -307,10 +308,10 @@
- 	// First find the global (readable) one...
- 	findGlobalKvircDirectory();
- 	// Init locale
--	KviStr szLocalePath = m_szGlobalKvircDir;
--	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
-+//	KviStr szLocalePath = m_szGlobalKvircDir;
-+//	szLocalePath.append(KviStr::Format,"%slocale%s",KVI_PATH_SEPARATOR,KVI_PATH_SEPARATOR);
- 
--	KviLocale::init(this,szLocalePath.ptr());
-+	KviLocale::init(this,NULL);
- 
- 	//__debug_1arg("Global Kvirc directory is %s",m_szGlobalKvircDir.ptr());
- 	// Now look for the local (writable) one
