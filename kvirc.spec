@@ -1,6 +1,8 @@
 %define		_beta		beta1
 Summary:	KDE Enhanced Visual IRC Client
+Summary(es):	KVirc - Cliente IRC
 Summary(pl):	Wizualny Klient IRC dla KDE
+Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
 Release:	beta1.1
@@ -9,13 +11,10 @@ Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source0:	ftp://ftp.kvirc.net/kvirc/%{version}-%{_beta}/source/%{name}-%{version}-%{_beta}.tar.bz2
 URL:		http://www.kvirc.net/
-BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	kdelibs-devel >= 3.0.3
-BuildRequires:	libstdc++-devel
 BuildRequires:	libjpeg-devel
-BuildRequires:	qt-devel >= 3.0.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -32,6 +31,10 @@ KVIrc is an enchanced visual irc client. Features:
  - Complete color,background and behavior configuration
  - IPv6 support
 
+%description -l es
+KVirc es un poderoso cliente de IRC en sistema UNIX com X-Window,
+embasado en QT.
+
 %description -l pl
 KVIrc jest rozszerzonym, wizualnym klientem irc. Jego mo¿liwo¶ci i
 zalety to:
@@ -44,6 +47,10 @@ zalety to:
  - zdarzenia
  - kompletne wsparcie dla kolorów
  - obs³uga IPv6
+
+%description -l pt_BR
+KVirc é um poderoso cliente livre de IRC para sistemas UNIX com
+X-Window, baseado no excelente toolkit gráfico QT.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_beta}
@@ -68,10 +75,10 @@ install -d $RPM_BUILD_ROOT{%{_applnkdir}/Network/Communications,%{_datadir}/mime
 
 %{__make} DESTDIR=$RPM_BUILD_ROOT install
 
-mv -f $RPM_BUILD_ROOT/usr/X11R6/share/kvirc/%{version}-%{_beta}/applnk/kvirc.desktop \
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{version}-%{_beta}/applnk/kvirc.desktop \
 	$RPM_BUILD_ROOT%{_applnkdir}/Network/Communications/
 
-mv -f $RPM_BUILD_ROOT/usr/X11R6/share/kvirc/%{version}-%{_beta}/mimelnk/x-kvs.desktop \
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{version}-%{_beta}/mimelnk/x-kvs.desktop \
 	$RPM_BUILD_ROOT%{_datadir}/mimelnk/application/
 
 %clean
