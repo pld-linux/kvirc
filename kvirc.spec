@@ -2,7 +2,8 @@ Summary:	KDE Enhanced Visual IRC Client
 Name:		kvirc
 Version:	0.9.0
 Release:	1
-Group:		X11/KDE/Internet
+Group:		X11/KDE/Applications
+Group(pl):	X11/KDE/Aplikacje
 Copyright:	GPL
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source:		%{name}-%{version}.tar.gz
