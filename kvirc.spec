@@ -2,7 +2,7 @@ Summary:	KDE Enhanced Visual IRC Client
 Summary(pl):	Wizualny Klient IRC dla KDE
 Name:		kvirc
 Version:	2.1.0
-Release:	1
+Release:	2
 Group:		X11/KDE/Applications
 Group(de):	X11/KDE/Applikationen
 Group(pl):	X11/KDE/Aplikacje
@@ -15,6 +15,7 @@ BuildRequires:	kdelibs-devel >= 2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -51,6 +52,8 @@ zalety to:
 charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 kdeicondir="%{_pixmapsdir}/hicolor/48x48"; export kdeicondir
 
+aclocal
+autoconf
 %configure \
 	--prefix=%{_prefix} \
 	--with-pipes \
