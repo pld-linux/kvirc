@@ -100,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kvirc/%{version}-%{_beta}/help/*/*.html
 %{_datadir}/kvirc/%{version}-%{_beta}/help/*/*.png
 %{_datadir}/kvirc/%{version}-%{_beta}/icons/*/*.png
-#%{_datadir}/kvirc/%{version}-%{_beta}/license
+#%%{_datadir}/kvirc/%{version}-%{_beta}/license
 %{_datadir}/kvirc/%{version}-%{_beta}/locale/*.mo
 %{_datadir}/kvirc/%{version}-%{_beta}/pics/*.png
 %{_datadir}/kvirc/%{version}-%{_beta}/protocols/*.protocol
