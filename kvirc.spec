@@ -90,10 +90,11 @@ Pliki nag³ówkowe biblioteki KVirc.
 %{__autoheader}
 %{__automake}
 
-kde_appsdir="%{_applnkdir}"; export kde_appsdir
-kde_htmldir="%{_htmldir}"; export kde_htmldir
-kde_icondir="%{_iconsdir}"; export kde_icondir
+#kde_appsdir="%{_applnkdir}"; export kde_appsdir
+#kde_htmldir="%{_htmldir}"; export kde_htmldir
+#kde_icondir="%{_iconsdir}"; export kde_icondir
 #charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
+
 %configure \
 	--with-pipes \
 	--with-aa-fonts \
@@ -111,10 +112,11 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}/LC_MESSAGES
 
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
-
-mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
-	$RPM_BUILD_ROOT%{_desktopdir}
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	kde_htmldir=%{_kdedocdir} \
+	kde_libs_htmldir=%{_kdedocdir} \
+	kdelnkdir=%{_desktopdir} \
 
 echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
 
@@ -140,8 +142,9 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUIL
 %find_lang	kvirc	--with-kde
 %find_lang      about   --with-kde
 cat about.lang >> kvirc.lang
-%find_lang      logview   --with-kde
-cat logview.lang >> kvirc.lang
+# no lang found.
+#%%find_lang      logview   --with-kde
+#cat logview.lang >> kvirc.lang
 %find_lang      dcc   --with-kde
 cat dcc.lang >> kvirc.lang
 
