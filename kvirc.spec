@@ -42,7 +42,7 @@ KVIrc is an enchanced visual irc client. Features:
 
 %description -l es
 KVirc es un poderoso cliente de IRC en sistema UNIX com X-Window,
-embasado en QT.
+embasado en Qt.
 
 %description -l pl
 KVIrc jest rozszerzonym, wizualnym klientem irc. Jego mo¿liwo¶ci i
@@ -59,7 +59,7 @@ zalety to:
 
 %description -l pt_BR
 KVirc é um poderoso cliente livre de IRC para sistemas UNIX com
-X-Window, baseado no excelente toolkit gráfico QT.
+X-Window, baseado no excelente toolkit gráfico Qt.
 
 %package devel
 Summary:	Header files for KVirc library
