@@ -105,7 +105,7 @@ diff -uNr kvirc/src/kvirc/kernel/kvi_app_fs.cpp~ kvirc/src/kvirc/kernel/kvi_app_
  		g_pCatalogueDict->setAutoDelete(true);
 -
 +#include <qstring.h>
-+		QString nlocaleDir = QString("/usr/share/locale/") + g_szLang + QString("/LC_MESSAGES/");
++		QString nlocaleDir = QString("/usr/share/locale/") + QString (g_szLang) + QString("/LC_MESSAGES/");
 +		const char * localeDir=nlocaleDir.latin1();
 +		
  		if(g_szLang.hasData())
