@@ -1,44 +1,64 @@
 Summary:	KDE Enhanced Visual IRC Client
+Summary(pl):	Wizualny Klient IRC dla KDE
 Name:		kvirc
-Version:	2.0.0
+Version:	2.1.0
 Release:	1
 Group:		X11/KDE/Applications
+Group(de):	X11/KDE/Applikationen
 Group(pl):	X11/KDE/Aplikacje
-Copyright:	GPL
+License:	GPL
 Vendor:		Szymon Stefanek <kvirc@tin.it>
-Source:		ftp://ftp.kvirc.net/kvirc/%{version}/source/%{name}-%{version}.tar.gz
-#Patch:		kvi_sparser.cpp.patch
+Source0:	ftp://ftp.kvirc.net/kvirc/%{version}/source/%{name}-%{version}.tar.gz
 URL:		http://www.kvirc.net/
 BuildRequires:	qt-devel >= 2.0
 BuildRequires:	kdelibs-devel >= 2.0
+BuildRequires:	libstdc++-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	XFree86-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
 
 %description
-KVIrc is an enchanced visual irc client.
-Features:
-        -MDI interface
-        -CTCP's
-        -DCC CHAT SEND/GET
-        -Individual queries
-        -Scripting
-        -Aliases
-        -Events (remote)
-        -Complete color,background and behavior configuration.
-        -Socks V4 support
-        -... just compile it and see :)
- 
+KVIrc is an enchanced visual irc client. Features:
+        - -MDI interface
+        - -CTCP's
+        - -DCC CHAT SEND/GET
+        - -Individual queries
+        - -Scripting
+        - -Aliases
+        - -Events (remote)
+        - -Complete color,background and behavior configuration.
+ - IPv6 support
+
+%description -l pl
+KVIrc jest rozsze¿onym, wizualnym klientem irc. Jego mo¿liwo¶ci i
+zalety to:
+ - -interfejs MDI
+ - CTCP
+ - DCC CHAT SEND/GET
+ - indywidualne zapytania
+ - skrypty
+ - aliasy
+ - zdarzenia
+ - kompletne wsparcie dla kolorów
+ - obs³uga IPv6
+
 %prep
 %setup -q
-#%patch -p1
 
 %build
 charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 kdeicondir="%{_pixmapsdir}/hicolor/48x48"; export kdeicondir
 
 %configure \
-	--prefix=%{prefix}
+	--prefix=%{_prefix} \
+	--with-pipes \
+	--with-ipv6-support \
+%ifarch %{ix86}
+	--with-i386-asm \
+%endif
+	--with-charset-translation
 %{__make}
 
 %install
