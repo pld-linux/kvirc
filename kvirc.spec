@@ -1,3 +1,8 @@
+# TODO
+# - file /usr/share/services/irc.protocol from install of
+#   kvirc-3.0.0-0.20040211.4 conflicts with file from package
+#   kdenetwork-kopete-protocol-irc-3.3.2-1
+
 %define		_snap	20040211
 %define 	fver	3.0.0-beta3
 Summary:	KDE Enhanced Visual IRC Client
@@ -6,7 +11,7 @@ Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
-Release:	0.%{_snap}.4
+Release:	0.%{_snap}.4.4
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
@@ -25,8 +30,6 @@ BuildRequires:	kdelibs-devel >= 3.0.3
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	libgsm-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_htmldir	%{_docdir}/kde/HTML
 
 %description
 KVIrc is an enchanced visual irc client. Features:
@@ -90,8 +93,6 @@ Pliki nag³ówkowe biblioteki KVirc.
 %{__autoheader}
 %{__automake}
 
-#kde_appsdir="%{_applnkdir}"; export kde_appsdir
-#kde_htmldir="%{_htmldir}"; export kde_htmldir
 #kde_icondir="%{_iconsdir}"; export kde_icondir
 #charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 
@@ -118,7 +119,7 @@ install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}/LC_
 	kde_libs_htmldir=%{_kdedocdir} \
 	kdelnkdir=%{_desktopdir} \
 
-echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
+echo "Categories=Qt;KDE;Network;X-Communication;IRCClient;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
 
 install -d $RPM_BUILD_ROOT%{_mandir}/man1/
 mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1*,%{_mandir}/man1/}
@@ -154,10 +155,12 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files -f kvirc.lang 
+%files -f kvirc.lang
 %defattr(644,root,root,755)
 %doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
-%doc %{_datadir}/kvirc/3.0.0-beta3/help/en/*
+%dir %{_datadir}/kvirc/%{fver}/help
+%dir %{_datadir}/kvirc/%{fver}/help/en
+%doc %{_datadir}/kvirc/%{fver}/help/en/*
 %attr(755,root,root) %{_bindir}/kvi_*.sh
 %attr(755,root,root) %{_bindir}/kvirc
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
@@ -168,14 +171,22 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kvirc/%{fver}/modules/*.so
 # needed or not?
 %{_libdir}/kvirc/%{fver}/modules/*.la
+
+%dir %{_datadir}/kvirc
+%dir %{_datadir}/kvirc/%{fver}
 %{_datadir}/kvirc/%{fver}/config
 %{_datadir}/kvirc/%{fver}/defscript
 %{_datadir}/kvirc/%{fver}/pics
+%{_datadir}/mimelnk/text/*.desktop
+%{_datadir}/services/*
+# initial kvirc run complained on missing COPYING file
+# it's having additional clause to GPL allowing distributing binaries for win32
+%dir %{_datadir}/kvirc/%{fver}/license
+%{_datadir}/kvirc/%{fver}/license/COPYING
+
 %{_iconsdir}/hicolor/*/*/*.png
 %{_desktopdir}/*.desktop
-%{_datadir}/mimelnk/text/*.desktop
 %{_mandir}/man1/*
-%{_datadir}/services/*
 
 %files devel
 %defattr(644,root,root,755)
