@@ -6,7 +6,7 @@ Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
-Release:	0.%{_snap}.2
+Release:	0.%{_snap}.4
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
@@ -75,7 +75,7 @@ Pliki nag³ówkowe biblioteki KVirc.
 
 %prep
 %setup -q -n kvirc
-%patch0 -p2
+%patch0 -p1 -b .niedakh
 %patch1 -p0
 
 # kill libtool.m4 and co. in acinclude.m4
@@ -92,7 +92,7 @@ Pliki nag³ówkowe biblioteki KVirc.
 
 kde_appsdir="%{_applnkdir}"; export kde_appsdir
 kde_htmldir="%{_htmldir}"; export kde_htmldir
-kde_icondir="%{_pixmapsdir}"; export kde_icondir
+kde_icondir="%{_iconsdir}"; export kde_icondir
 #charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 %configure \
 	--with-pipes \
@@ -109,8 +109,7 @@ kde_icondir="%{_pixmapsdir}"; export kde_icondir
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_desktopdir}
-install -d $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
-install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}
+install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}/LC_MESSAGES
 
 %{__make} DESTDIR=$RPM_BUILD_ROOT install
 
@@ -122,21 +121,21 @@ echo "Categories=Qt;KDE;Network;X-Communication;" >> $RPM_BUILD_ROOT%{_desktopdi
 install -d $RPM_BUILD_ROOT%{_mandir}/man1/
 mv $RPM_BUILD_ROOT{%{_datadir}/man/kvirc.1*,%{_mandir}/man1/}
 
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/dcc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/dcc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/logview.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/LC_MESSAGES/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/dcc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/about.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/logview.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/LC_MESSAGES/kvirc.mo
+mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{fver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/LC_MESSAGES/kvirc.mo
 
 %find_lang	kvirc	--with-kde
 %find_lang      about   --with-kde
@@ -145,10 +144,6 @@ cat about.lang >> kvirc.lang
 cat logview.lang >> kvirc.lang
 %find_lang      dcc   --with-kde
 cat dcc.lang >> kvirc.lang
-
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc $RPM_BUILD_ROOT%{_datadir}/apps/kvirc
-install -d $RPM_BUILD_ROOT%{_iconsdir}
-mv -f $RPM_BUILD_ROOT{%{_pixmapsdir}/*,%{_iconsdir}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -159,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f kvirc.lang 
 %defattr(644,root,root,755)
 %doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
+%doc %{_datadir}/kvirc/3.0.0-beta3/help/en/*
 %attr(755,root,root) %{_bindir}/kvi_*.sh
 %attr(755,root,root) %{_bindir}/kvirc
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
@@ -169,7 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kvirc/%{fver}/modules/*.so
 # needed or not?
 %{_libdir}/kvirc/%{fver}/modules/*.la
-%{_datadir}/apps/kvirc
+%{_datadir}/kvirc/%{fver}/config
+%{_datadir}/kvirc/%{fver}/defscript
+%{_datadir}/kvirc/%{fver}/pics
 %{_iconsdir}/hicolor/*/*/*.png
 %{_desktopdir}/*.desktop
 %{_datadir}/mimelnk/text/*.desktop
