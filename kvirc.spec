@@ -3,19 +3,19 @@ Summary:	KDE Enhanced Visual IRC Client
 Summary(pl):	Wizualny Klient IRC dla KDE
 Name:		kvirc
 Version:	3.0.0
-Release:	beta1.0.1
+Release:	beta1.1
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source0:	ftp://ftp.kvirc.net/kvirc/%{version}-%{_beta}/source/%{name}-%{version}-%{_beta}.tar.bz2
 URL:		http://www.kvirc.net/
-BuildRequires:	qt-devel >= 3.0
-BuildRequires:	kdelibs-devel >= 3.0
-BuildRequires:	libstdc++-devel
-BuildRequires:	libjpeg-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	kdelibs-devel >= 3.0.3
+BuildRequires:	libstdc++-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	qt-devel >= 3.0.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
