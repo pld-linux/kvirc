@@ -1,20 +1,21 @@
+%define		_beta		beta1
 Summary:	KDE Enhanced Visual IRC Client
 Summary(pl):	Wizualny Klient IRC dla KDE
 Name:		kvirc
-Version:	2.1.0
-Release:	3
+Version:	3.0.0
+Release:	beta1.1
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
-Source0:	ftp://ftp.kvirc.net/kvirc/%{version}/source/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.kvirc.net/kvirc/%{version}-%{_beta}/source/%{name}-%{version}-%{_beta}.tar.bz2
 URL:		http://www.kvirc.net/
-BuildRequires:	qt-devel >= 2.0
-BuildRequires:	kdelibs-devel >= 2.0
-BuildRequires:	libstdc++-devel
-BuildRequires:	libjpeg-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	kdelibs-devel >= 3.0.3
+BuildRequires:	libstdc++-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	qt-devel >= 3.0.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -45,16 +46,14 @@ zalety to:
  - obs³uga IPv6
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-%{_beta}
 
 %build
-charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
-kdeicondir="%{_pixmapsdir}/hicolor/48x48"; export kdeicondir
+kde_htmldir="%{_htmldir}"; export kde_htmldir
+kde_icondir="%{_pixmapsdir}"; export kde_icondir
+#charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
 
-aclocal
-%{__autoconf}
 %configure \
-	--prefix=%{_prefix} \
 	--with-pipes \
 	--with-ipv6-support \
 %ifarch %{ix86}
@@ -65,32 +64,50 @@ aclocal
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} \
-    charmapsdir="%{_datadir}/kvirc/charmaps" \
-    kdeicondir="%{_pixmapsdir}/hicolor/48x48" \
-    mandir="%{_mandir}/man1" \
-    DESTDIR=$RPM_BUILD_ROOT install
+install -d $RPM_BUILD_ROOT{%{_applnkdir}/Network/Communications,%{_datadir}/mimelnk/application}
 
-install -d $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications
+%{__make} DESTDIR=$RPM_BUILD_ROOT install
 
-mv -f $RPM_BUILD_ROOT%{_applnkdir}/Internet/kvirc.desktop \
-   $RPM_BUILD_ROOT%{_applnkdir}/Network/Communications/kvirc.desktop
+mv -f $RPM_BUILD_ROOT/usr/X11R6/share/kvirc/%{version}-%{_beta}/applnk/kvirc.desktop \
+	$RPM_BUILD_ROOT%{_applnkdir}/Network/Communications/
+
+mv -f $RPM_BUILD_ROOT/usr/X11R6/share/kvirc/%{version}-%{_beta}/mimelnk/x-kvs.desktop \
+	$RPM_BUILD_ROOT%{_datadir}/mimelnk/application/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
+%doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
+%attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/*.so
+%attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/*.la
+%attr(755,root,root) %{_datadir}/kvirc/%{version}-%{_beta}/modules/caps/crypt/*
+%{_datadir}/kvirc/%{version}-%{_beta}/config/*.kvc
+%{_datadir}/kvirc/%{version}-%{_beta}/config/modules/*.kvc
+%{_datadir}/kvirc/%{version}-%{_beta}/defscript/*.kvs
+%{_datadir}/kvirc/%{version}-%{_beta}/help/*/*.html
+%{_datadir}/kvirc/%{version}-%{_beta}/help/*/*.png
+%{_datadir}/kvirc/%{version}-%{_beta}/icons/*/*.png
+#%{_datadir}/kvirc/%{version}-%{_beta}/license
+%{_datadir}/kvirc/%{version}-%{_beta}/locale/*.mo
+%{_datadir}/kvirc/%{version}-%{_beta}/pics/*.png
+%{_datadir}/kvirc/%{version}-%{_beta}/protocols/*.protocol
+%{_applnkdir}/Network/Communications/*.desktop
+%{_datadir}/mimelnk/application/*.desktop
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/protocols
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/modules
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/modules/caps/crypt
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/config/modules
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/config
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/defscript
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/help
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/icons/
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/locale
+%dir %{_datadir}/kvirc/%{version}-%{_beta}/pics
 %dir %{_datadir}/kvirc
-%attr(755,root,root) %{_datadir}/kvirc/plugins/*
-%{_datadir}/kvirc/charmaps
-%{_datadir}/kvirc/config
-%{_datadir}/kvirc/help
-%{_datadir}/kvirc/locale
-%{_datadir}/kvirc/msgcolors
-%{_datadir}/kvirc/pics
-%{_mandir}/man1/*
-%{_applnkdir}/Network/Communications/kvirc.desktop
-%{_pixmapsdir}/hicolor/48x48/kvirc.png
