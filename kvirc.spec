@@ -8,8 +8,8 @@ Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source:		%{name}-%{version}.tar.gz
 Patch:		kvi_sparser.cpp.patch
 URL:		http://www.kvirc.org/
-BuildPrereq:	qt-devel >= 1.40
-BuildPrereq:	kdelibs-devel > 1.0
+BuildRequires:	qt-devel >= 1.40
+BuildRequires:	kdelibs-devel > 1.0
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
