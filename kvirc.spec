@@ -11,6 +11,7 @@ License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
 Source0:	ftp://ftp.kvirc.net/kvirc/%{fver}/source/%{name}-%{fver}.tar.bz2
+# Source0-md5:	88fa021f23a25ce3bf43c21c77df9105
 Patch0:		%{name}-paths.patch
 URL:		http://www.kvirc.net/
 BuildRequires:	autoconf
