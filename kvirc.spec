@@ -55,8 +55,3 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/share/icons/mini/kvirc.xpm
 %{prefix}/share/locale/de/LC_MESSAGES/kvirc.mo
 %{prefix}/share/locale/it/LC_MESSAGES/kvirc.mo
-
-%changelog                                               
-* Sat Jul 10 1999
-  []
-- based on spec written by Troy Engel <tengel@sonic.net>.
