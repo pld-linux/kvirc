@@ -11,7 +11,7 @@ Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.0.0
-Release:	0.%{_snap}.4.4
+Release:	0.%{_snap}.4.5
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
@@ -93,9 +93,6 @@ Pliki nag³ówkowe biblioteki KVirc.
 %{__autoheader}
 %{__automake}
 
-#kde_icondir="%{_iconsdir}"; export kde_icondir
-#charmapsdir="%{_datadir}/kvirc/charmaps"; export charmapsdir
-
 %configure \
 	--with-pipes \
 	--with-aa-fonts \
@@ -105,7 +102,9 @@ Pliki nag³ówkowe biblioteki KVirc.
 	--with-i386-asm \
 	--with-ix86-asm \
 %endif
-	--with-charset-translation
+	--with-charset-translation \
+	kde_icondir=%{_iconsdir}
+
 %{__make}
 
 %install
@@ -117,7 +116,7 @@ install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}/LC_
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir} \
 	kde_libs_htmldir=%{_kdedocdir} \
-	kdelnkdir=%{_desktopdir} \
+	applnkdir=%{_desktopdir} \
 
 echo "Categories=Qt;KDE;Network;X-Communication;IRCClient;" >> $RPM_BUILD_ROOT%{_desktopdir}/kvirc.desktop
 
