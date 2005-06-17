@@ -14,23 +14,31 @@ diff -uNr kvirc/acinclude.m4~ kvirc/acinclude.m4
  	AC_SUBST(modulelibdir)
  
  	defscriptdir="\${globalkvircdir}/defscript"
-@@ -1963,11 +1963,11 @@
+@@ -2165,15 +2165,15 @@
  	AC_SUBST(kdeservicesdir)
  
  	if test "$SS_KDE_REQUESTED" = "yes"; then
+-		iconapps16datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/16x16/apps"
 -		iconapps32datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/32x32/apps"
 -		iconapps48datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/48x48/apps"
+-		iconapps64datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/64x64/apps"
+-		iconmime16datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/16x16/mimetypes"
 -		iconmime32datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/32x32/mimetypes"
 -		iconmime48datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/48x48/mimetypes"
+-		iconmime64datadir="$SS_KDE_GENERAL_DIR/share/icons/hicolor/64x64/mimetypes"
 -		applnkdir="$SS_KDE_GENERAL_DIR/share/applnk/Internet"
++		iconapps16datadir="${kde_icondir}/hicolor/16x16/apps"
 +		iconapps32datadir="${kde_icondir}/hicolor/32x32/apps"
 +		iconapps48datadir="${kde_icondir}/hicolor/48x48/apps"
++		iconapps64datadir="${kde_icondir}/hicolor/64x64/apps"
++		iconmime16datadir="${kde_icondir}/hicolor/16x16/mimetypes"
 +		iconmime32datadir="${kde_icondir}/hicolor/32x32/mimetypes"
 +		iconmime48datadir="${kde_icondir}/hicolor/48x48/mimetypes"
++		iconmime64datadir="${kde_icondir}/hicolor/64x64/mimetypes"
 +		applnkdir="${kde_appsdir}/Internet"
  		mimelnkdir="$SS_KDE_GENERAL_DIR/share/mimelnk/text"
  	else
- 		iconapps32datadir="\${exec_prefix}/share/kvirc/$VERSION/icons/32x32"
+ 		iconapps16datadir="\${exec_prefix}/share/kvirc/$VERSION/icons/16x16"
 diff -uNr kvirc/src/kvirc/kernel/kvi_app_fs.cpp~ kvirc/src/kvirc/kernel/kvi_app_fs.cpp
 --- kvirc/src/kvirc/kernel/kvi_app_fs.cpp~	2003-11-20 02:53:38.000000000 +0100
 +++ kvirc/src/kvirc/kernel/kvi_app_fs.cpp	2004-02-11 15:26:24.744986168 +0100
@@ -99,15 +107,14 @@ diff -uNr kvirc/src/kvirc/kernel/kvi_app_fs.cpp~ kvirc/src/kvirc/kernel/kvi_app_
  	{
  		// first of all try to find out the current locale
  		g_szLang = kvi_getenv("KVIRC_LANG");
-@@ -484,7 +484,10 @@
- 		// the catalogue dict
- 		g_pCatalogueDict = new QAsciiDict<KviMessageCatalogue>;
- 		g_pCatalogueDict->setAutoDelete(true);
--
-+#include <qstring.h>
-+		QString nlocaleDir = QString("/usr/share/locale/") + QString (g_szLang) + QString("/LC_MESSAGES/");
-+		const char * localeDir=nlocaleDir.latin1();
+@@ -761,6 +761,10 @@
+ 		// the Qt docs explicitly state that we shouldn't delete
+ 		// the codecs by ourselves...
+ 		g_pSmartCodecDict->setAutoDelete(false);
 +		
++		#include <qstring.h>
++ 		QString nlocaleDir = QString("/usr/share/locale/") + QString (g_szLang) + QString("/LC_MESSAGES/");
++ 		const char * localeDir = nlocaleDir.latin1();
+ 
  		if(g_szLang.hasData())
  		{
- 			KviStr szBuffer;
