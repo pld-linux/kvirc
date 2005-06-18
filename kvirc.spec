@@ -81,8 +81,8 @@ Header files for KVirc library.
 Pliki nag³ówkowe biblioteki KVirc.
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch0 -p1 -b .niedakh
+%setup -q
+%patch0 -p1
 %patch1 -p1
 
 # kill libtool.m4 and co. in acinclude.m4
