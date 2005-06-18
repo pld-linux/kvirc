@@ -32,6 +32,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	kdelibs-devel >= 3.0.3
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	rpmbuild(macros) >= 1.129
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
