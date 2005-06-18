@@ -1,0 +1,46 @@
+diff -uNr kvirc-3.2.0.orig/src/kvirc/kernel/kvi_irccontext.h kvirc-3.2.0/src/kvirc/kernel/kvi_irccontext.h
+--- kvirc-3.2.0.orig/src/kvirc/kernel/kvi_irccontext.h	2004-11-22 03:13:17.000000000 +0100
++++ kvirc-3.2.0/src/kvirc/kernel/kvi_irccontext.h	2005-06-18 02:00:27.000000000 +0200
+@@ -38,6 +38,7 @@
+ class KviIrcDataStreamMonitor;
+ class KviWindow;
+ class QTimer;
++class KviConsole;
+ 
+ /*
+ 	KviIrcContext is the structure that groups the objects and resources
+diff -uNr kvirc-3.2.0.orig/src/kvirc/module/kvi_moduleextension.h kvirc-3.2.0/src/kvirc/module/kvi_moduleextension.h
+--- kvirc-3.2.0.orig/src/kvirc/module/kvi_moduleextension.h	2004-09-09 23:51:07.000000000 +0200
++++ kvirc-3.2.0/src/kvirc/module/kvi_moduleextension.h	2005-06-18 01:54:07.000000000 +0200
+@@ -95,6 +95,8 @@
+ 
+ typedef KviPtrList<KviModuleExtensionDescriptor> KviModuleExtensionDescriptorList;
+ 
++class KviModuleExtensionManager;
++
+ extern KVIRC_API KviModuleExtensionManager * g_pModuleExtensionManager;
+ 
+ class KVIRC_API KviModuleExtensionManager
+diff -uNr kvirc-3.2.0.orig/src/kvirc/ui/kvi_console.cpp kvirc-3.2.0/src/kvirc/ui/kvi_console.cpp
+--- kvirc-3.2.0.orig/src/kvirc/ui/kvi_console.cpp	2005-02-25 18:57:45.000000000 +0100
++++ kvirc-3.2.0/src/kvirc/ui/kvi_console.cpp	2005-06-18 02:08:19.000000000 +0200
+@@ -40,6 +40,7 @@
+ #include "kvi_proxydb.h"
+ #include "kvi_netutils.h"
+ #include "kvi_ircserver.h"
++#include "kvi_ircserverdb.h"
+ #include "kvi_dns.h"
+ #include "kvi_defaults.h"
+ #include "kvi_ircuserdb.h"
+diff -uNr kvirc-3.2.0.orig/src/kvirc/ui/kvi_console.h kvirc-3.2.0/src/kvirc/ui/kvi_console.h
+--- kvirc-3.2.0.orig/src/kvirc/ui/kvi_console.h	2005-02-25 18:57:45.000000000 +0100
++++ kvirc-3.2.0/src/kvirc/ui/kvi_console.h	2005-06-18 01:53:38.000000000 +0200
+@@ -57,7 +57,7 @@
+ class KviUserListView;
+ class KviNotifyListManager;
+ class KviRegisteredUser;
+-
++class KviIrcSocketMonitor;
+ 
+ 
+ 
