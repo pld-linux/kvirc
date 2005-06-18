@@ -1,8 +1,7 @@
+#
 # TODO:
-# - check if the following still occurs:
-#   file /usr/share/services/irc.protocol from install of
-#   kvirc-3.0.0-0.20040211.4 conflicts with file from package
-#   kdenetwork-kopete-protocol-irc-3.3.2-1
+# - do something about the conflicting file /usr/share/services/irc.protocol
+# - installed but unpackaged: /usr/share/locale/{de,it}/LC_MESSAGES/perlcore.mo
 
 %define		_ver	3.2.0
 #define		_snap	20040211
@@ -14,7 +13,7 @@ Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	%{_ver}
 #Release:	0.%{_snap}.4.5
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
@@ -90,6 +89,9 @@ Pliki nag³ówkowe biblioteki KVirc.
 # mv -f acinclude.m4.tmp acinclude.m4
 # sed -i -e s,KVIRC_PROG_LIBTOOL,AC_PROG_LIBTOOL, configure.in
 
+# fix for (wrong) hardcoded path
+%{__sed} -i 's:/usr/lib/kvirc/3.0.0-beta3:%{_libdir}/kvirc/3.2.0:g' src/kvirc/kernel/kvi_app_fs.cpp
+
 %build
 %{__libtoolize}
 %{__aclocal}
@@ -113,8 +115,9 @@ Pliki nag³ówkowe biblioteki KVirc.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 install -d $RPM_BUILD_ROOT%{_desktopdir}
-install -d $RPM_BUILD_ROOT%{_datadir}/locale/{de,es,fr,it,nl,pl,pt,pt_BR,sr}/LC_MESSAGES
+install -d $RPM_BUILD_ROOT%{_datadir}/locale/{bg,ca,cs,de,es,fr,it,nl,pl,pt,pt_BR,ru,sr}/LC_MESSAGES
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -126,29 +129,19 @@ echo "Categories=Qt;KDE;Network;X-Communication;IRCClient;" >> $RPM_BUILD_ROOT%{
 
 install -d $RPM_BUILD_ROOT%{_mandir}/man1/
 
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_de.mo	$RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/dcc_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/dcc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/about_de.mo      $RPM_BUILD_ROOT%{_datadir}/locale/de/LC_MESSAGES/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/about_es.mo      $RPM_BUILD_ROOT%{_datadir}/locale/es/LC_MESSAGES/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_fr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/fr/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/dcc_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/dcc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/about_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/about.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/logview_it.mo      $RPM_BUILD_ROOT%{_datadir}/locale/it/LC_MESSAGES/logview.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_nl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/nl/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_pl.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pl/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_pt.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_pt_BR.mo      $RPM_BUILD_ROOT%{_datadir}/locale/pt_BR/LC_MESSAGES/kvirc.mo
-mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/kvirc_sr.mo      $RPM_BUILD_ROOT%{_datadir}/locale/sr/LC_MESSAGES/kvirc.mo
+for lang in bg ca cs de es fr it nl pl pt pt_BR ru sr; do
+	for mofile in about dcc editor filetransferwindow kvirc logview notifier perl perlcore sharedfileswindow; do
+		[ -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/${mofile}_${lang}.mo ] && \
+		mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/${mofile}_${lang}.mo \
+		      $RPM_BUILD_ROOT%{_datadir}/locale/${lang}/LC_MESSAGES/${mofile}.mo
+	done
+done
 
 %find_lang	kvirc	--with-kde
-%find_lang	about	--with-kde
-cat about.lang >> kvirc.lang
-%find_lang	logview	--with-kde
-cat logview.lang >> kvirc.lang
-%find_lang	dcc	--with-kde
-cat dcc.lang >> kvirc.lang
+for foo in about dcc editor filetransferwindow logview notifier perl perlcore sharedfileswindow; do
+	%find_lang	$foo	--with-kde
+	cat $foo.lang >> kvirc.lang
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -178,7 +171,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kvirc/%{_ver}/config
 %{_datadir}/kvirc/%{_ver}/defscript
 %{_datadir}/kvirc/%{_ver}/pics
-%{_datadir}/kvirc/%{_ver}/locale/*.mo
 %{_datadir}/kvirc/%{_ver}/msgcolors/*.msgclr
 %{_datadir}/kvirc/%{_ver}/themes/*/*.kvc
 %{_datadir}/mimelnk/text/*.desktop
