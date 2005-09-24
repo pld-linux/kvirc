@@ -3,23 +3,22 @@
 # - do something about the conflicting file /usr/share/services/irc.protocol
 # - installed but unpackaged: /usr/share/locale/{de,it}/LC_MESSAGES/perlcore.mo
 
-%define		_ver	3.2.0
 #define		_snap	20040211
-%define		_snap	%nil
+%define		_snap	%{nil}
 Summary:	KDE Enhanced Visual IRC Client
 Summary(es):	KVirc - Cliente IRC
 Summary(pl):	Wizualny Klient IRC dla KDE
 Summary(pt_BR):	KVirc - Cliente IRC
 Name:		kvirc
-Version:	%{_ver}
+Version:	3.2.0
 #Release:	0.%{_snap}.4.5
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Vendor:		Szymon Stefanek <kvirc@tin.it>
-Source0:	ftp://ftp.kvirc.net/pub/kvirc/%{_ver}/source/%{name}-%{_ver}.tar.bz2
+Source0:	ftp://ftp.kvirc.net/pub/kvirc/%{version}/source/%{name}-%{version}.tar.bz2
 # Source0-md5:	e783827fda3832fc3fb50e7a41ed627d
-##Source0:	ftp://ftp.kvirc.net/pub/kvirc/snapshots/source/kvirc-%{_ver}-snap%{_snap}.tar.gz
+##Source0:	ftp://ftp.kvirc.net/pub/kvirc/snapshots/source/kvirc-%{version}-snap%{_snap}.tar.gz
 ##Source0:	%{name}-snap%{_snap}.tar.bz2
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-build.patch
@@ -91,7 +90,7 @@ Pliki nag³ówkowe biblioteki KVirc.
 # sed -i -e s,KVIRC_PROG_LIBTOOL,AC_PROG_LIBTOOL, configure.in
 
 # fix for (wrong) hardcoded path
-%{__sed} -i 's:/usr/lib/kvirc/3.0.0-beta3:%{_libdir}/kvirc/3.2.0:g' src/kvirc/kernel/kvi_app_fs.cpp
+%{__sed} -i 's:/usr/lib/kvirc/3.0.0-beta3:%{_libdir}/kvirc/%{version}:g' src/kvirc/kernel/kvi_app_fs.cpp
 
 %build
 %{__libtoolize}
@@ -105,6 +104,7 @@ Pliki nag³ówkowe biblioteki KVirc.
 	--with-aa-fonts \
 	--with-big-channels \
 	--with-pizza \
+	--with-qt-library-dir=%{_libdir} \
 %ifarch %{ix86}
 	--with-i386-asm \
 	--with-ix86-asm \
@@ -132,8 +132,8 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1/
 
 for lang in bg ca cs de es fr it nl pl pt pt_BR ru sr; do
 	for mofile in about dcc editor filetransferwindow kvirc logview notifier perl perlcore sharedfileswindow; do
-		[ -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/${mofile}_${lang}.mo ] && \
-		mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{_ver}/locale/${mofile}_${lang}.mo \
+		[ -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{version}/locale/${mofile}_${lang}.mo ] && \
+		mv -f $RPM_BUILD_ROOT%{_datadir}/kvirc/%{version}/locale/${mofile}_${lang}.mo \
 		      $RPM_BUILD_ROOT%{_datadir}/locale/${lang}/LC_MESSAGES/${mofile}.mo
 	done
 done
@@ -144,6 +144,17 @@ for foo in about dcc editor filetransferwindow logview notifier perl perlcore sh
 	cat $foo.lang >> kvirc.lang
 done
 
+# should probably patch
+%if "%{_lib}" != "lib"
+mv $RPM_BUILD_ROOT/usr/{lib/kvirc,%{_lib}}
+%endif
+
+install -d $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/apps
+mv $RPM_BUILD_ROOT%{_datadir}/{kvirc/%{version}/icons/*,icons/hicolor/apps}
+install -d $RPM_BUILD_ROOT%{_datadir}/mimelnk/text
+mv $RPM_BUILD_ROOT%{_datadir}/{kvirc/%{version}/mimelnk/*,mimelnk/text}
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -153,33 +164,33 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README TODO doc/scriptexamples/{*.kvs,*/*.kvs,*/*.png}
-%dir %{_datadir}/kvirc/%{_ver}/help
-%dir %{_datadir}/kvirc/%{_ver}/help/en
-%doc %{_datadir}/kvirc/%{_ver}/help/en/*
+%dir %{_datadir}/kvirc/%{version}/help
+%dir %{_datadir}/kvirc/%{version}/help/en
+%doc %{_datadir}/kvirc/%{version}/help/en/*
 %attr(755,root,root) %{_bindir}/kvi_*.sh
 %attr(755,root,root) %{_bindir}/kvirc
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 %dir %{_libdir}/kvirc
-%dir %{_libdir}/kvirc/%{_ver}
-%dir %{_libdir}/kvirc/%{_ver}/modules
-%{_libdir}/kvirc/%{_ver}/modules/caps
-%attr(755,root,root) %{_libdir}/kvirc/%{_ver}/modules/*.so
+%dir %{_libdir}/kvirc/%{version}
+%dir %{_libdir}/kvirc/%{version}/modules
+%{_libdir}/kvirc/%{version}/modules/caps
+%attr(755,root,root) %{_libdir}/kvirc/%{version}/modules/*.so
 # needed or not?
-%{_libdir}/kvirc/%{_ver}/modules/*.la
+%{_libdir}/kvirc/%{version}/modules/*.la
 
 %dir %{_datadir}/kvirc
-%dir %{_datadir}/kvirc/%{_ver}
-%{_datadir}/kvirc/%{_ver}/config
-%{_datadir}/kvirc/%{_ver}/defscript
-%{_datadir}/kvirc/%{_ver}/pics
-%{_datadir}/kvirc/%{_ver}/msgcolors/*.msgclr
-%{_datadir}/kvirc/%{_ver}/themes/*/*.kvc
 %{_datadir}/mimelnk/text/*.desktop
+%dir %{_datadir}/kvirc/%{version}
+%{_datadir}/kvirc/%{version}/config
+%{_datadir}/kvirc/%{version}/defscript
+%{_datadir}/kvirc/%{version}/pics
+%{_datadir}/kvirc/%{version}/msgcolors/*.msgclr
+%{_datadir}/kvirc/%{version}/themes/*/*.kvc
 %{_datadir}/services/*
 # initial kvirc run complained on missing COPYING file
 # it's having additional clause to GPL allowing distributing binaries for win32
-%dir %{_datadir}/kvirc/%{_ver}/license
-%{_datadir}/kvirc/%{_ver}/license/COPYING
+%dir %{_datadir}/kvirc/%{version}/license
+%{_datadir}/kvirc/%{version}/license/COPYING
 
 %{_iconsdir}/hicolor/*/*/*.png
 %{_desktopdir}/*.desktop
