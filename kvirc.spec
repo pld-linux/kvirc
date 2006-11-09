@@ -71,7 +71,7 @@ X-Window, baseado no excelente toolkit gráfico Qt.
 Summary:	Header files for KVirc library
 Summary(pl):	Pliki nag³ówkowe biblioteki KVirc
 Group:		X11/Development
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for KVirc library.
