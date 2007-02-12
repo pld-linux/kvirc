@@ -6,9 +6,9 @@
 #define		_snap	20040211
 %define		_snap	%{nil}
 Summary:	KDE Enhanced Visual IRC Client
-Summary(es):	KVirc - Cliente IRC
-Summary(pl):	Wizualny Klient IRC dla KDE
-Summary(pt_BR):	KVirc - Cliente IRC
+Summary(es.UTF-8):   KVirc - Cliente IRC
+Summary(pl.UTF-8):   Wizualny Klient IRC dla KDE
+Summary(pt_BR.UTF-8):   KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.2.0
 #Release:	0.%{_snap}.4.5
@@ -46,12 +46,12 @@ KVIrc is an enchanced visual irc client. Features:
  - Complete color,background and behavior configuration
  - IPv6 support
 
-%description -l es
+%description -l es.UTF-8
 KVirc es un poderoso cliente de IRC en sistema UNIX com X-Window,
 embasado en Qt.
 
-%description -l pl
-KVIrc jest rozszerzonym, wizualnym klientem irc. Jego moøliwo∂ci i
+%description -l pl.UTF-8
+KVIrc jest rozszerzonym, wizualnym klientem irc. Jego mo≈ºliwo≈õci i
 zalety to:
  - interfejs MDI
  - CTCP
@@ -60,24 +60,24 @@ zalety to:
  - skrypty
  - aliasy
  - zdarzenia
- - kompletne wsparcie dla kolorÛw
- - obs≥uga IPv6
+ - kompletne wsparcie dla kolor√≥w
+ - obs≈Çuga IPv6
 
-%description -l pt_BR
-KVirc È um poderoso cliente livre de IRC para sistemas UNIX com
-X-Window, baseado no excelente toolkit gr·fico Qt.
+%description -l pt_BR.UTF-8
+KVirc √© um poderoso cliente livre de IRC para sistemas UNIX com
+X-Window, baseado no excelente toolkit gr√°fico Qt.
 
 %package devel
 Summary:	Header files for KVirc library
-Summary(pl):	Pliki nag≥Ûwkowe biblioteki KVirc
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe biblioteki KVirc
 Group:		X11/Development
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for KVirc library.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe biblioteki KVirc.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe biblioteki KVirc.
 
 %prep
 %setup -q
