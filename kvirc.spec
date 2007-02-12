@@ -1,6 +1,6 @@
 %define		_beta		beta1
 Summary:	KDE Enhanced Visual IRC Client
-Summary(pl):	Wizualny Klient IRC dla KDE
+Summary(pl.UTF-8):   Wizualny Klient IRC dla KDE
 Name:		kvirc
 Version:	3.0.0
 Release:	beta1.1
@@ -32,8 +32,8 @@ KVIrc is an enchanced visual irc client. Features:
  - Complete color,background and behavior configuration
  - IPv6 support
 
-%description -l pl
-KVIrc jest rozszerzonym, wizualnym klientem irc. Jego moøliwo∂ci i
+%description -l pl.UTF-8
+KVIrc jest rozszerzonym, wizualnym klientem irc. Jego mo≈ºliwo≈õci i
 zalety to:
  - interfejs MDI
  - CTCP
@@ -42,8 +42,8 @@ zalety to:
  - skrypty
  - aliasy
  - zdarzenia
- - kompletne wsparcie dla kolorÛw
- - obs≥uga IPv6
+ - kompletne wsparcie dla kolor√≥w
+ - obs≈Çuga IPv6
 
 %prep
 %setup -q -n %{name}-%{version}-%{_beta}
