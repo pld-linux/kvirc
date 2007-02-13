@@ -6,9 +6,9 @@
 #define		_snap	20040211
 %define		_snap	%{nil}
 Summary:	KDE Enhanced Visual IRC Client
-Summary(es.UTF-8):   KVirc - Cliente IRC
-Summary(pl.UTF-8):   Wizualny Klient IRC dla KDE
-Summary(pt_BR.UTF-8):   KVirc - Cliente IRC
+Summary(es.UTF-8):	KVirc - Cliente IRC
+Summary(pl.UTF-8):	Wizualny Klient IRC dla KDE
+Summary(pt_BR.UTF-8):	KVirc - Cliente IRC
 Name:		kvirc
 Version:	3.2.0
 #Release:	0.%{_snap}.4.5
@@ -69,7 +69,7 @@ X-Window, baseado no excelente toolkit gráfico Qt.
 
 %package devel
 Summary:	Header files for KVirc library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki KVirc
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki KVirc
 Group:		X11/Development
 Requires:	%{name} = %{version}-%{release}
 
